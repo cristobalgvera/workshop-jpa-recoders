@@ -29,18 +29,16 @@ public class Chofer {
     @JoinColumn(name = "OFICINA_UBER_ID", nullable = false)
     private OficinaUber oficinaUber;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(name = "VIAJE",
-            joinColumns = @JoinColumn(name = "CHOFER_ID"),
-            inverseJoinColumns = @JoinColumn(name = "PASAJERO_ID"))
-    private Set<Pasajero> pasajeros = new HashSet<>();
+    @OneToMany(mappedBy = "chofer",
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private Set<Viaje> viajes = new HashSet<>();
 
-    public void addPasajero(Pasajero pasajero) {
-        pasajeros.add(pasajero);
+    public void addViaje(Viaje viaje) {
+        viajes.add(viaje);
     }
 
-    public void deletePasajero(Pasajero pasajero) {
-        pasajeros.remove(pasajero);
+    public void deleteViaje(Viaje viaje) {
+        viajes.remove(viaje);
     }
 
 }

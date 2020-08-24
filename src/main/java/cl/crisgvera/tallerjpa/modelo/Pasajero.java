@@ -26,18 +26,16 @@ public class Pasajero {
     @Column(length = 15)
     private String celular;
 
-    @ManyToMany(mappedBy = "pasajeros",
+    @OneToMany(mappedBy = "pasajero",
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private Set<Chofer> choferes = new HashSet<>();
+    private Set<Viaje> viajes = new HashSet<>();
 
-    public void addChofer(Chofer chofer) {
-        choferes.add(chofer);
-        chofer.addPasajero(this);
+    public void addViaje(Viaje viaje) {
+        viajes.add(viaje);
     }
 
-    public void deleteChofer(Chofer chofer) {
-        choferes.remove(chofer);
-        chofer.deletePasajero(this);
+    public void deleteViaje(Viaje viaje) {
+        viajes.remove(viaje);
     }
 
 }
