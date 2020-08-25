@@ -1,16 +1,20 @@
 package cl.crisgvera.tallerjpa.modelo;
 
 import cl.crisgvera.tallerjpa.modelo.relacional.ViajeId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Viaje {
+@ToString
+@EqualsAndHashCode
+public class Viaje implements Serializable {
 
     @EmbeddedId
     ViajeId id; // Debe ser un atributo público por razones relativas a JPA y su método de adquisición de datos
@@ -18,12 +22,14 @@ public class Viaje {
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @MapsId(value = "CHOFER_ID") // Nombre establecido en 'ViajeId' para 'choferId'
     @JoinColumn(name = "CHOFER_ID")
-    private Chofer chofer;
+    @JsonIgnore
+    Chofer chofer;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @MapsId(value = "PASAJERO_ID") // Nombre establecido en 'ViajeId' para 'pasajeroId'
     @JoinColumn(name = "PASAJERO_ID")
-    private Pasajero pasajero;
+    @JsonIgnore
+    Pasajero pasajero;
 
     @Column(length = 50)
     private String ubicacionSalida, ubicacionLlegada;
@@ -38,17 +44,9 @@ public class Viaje {
      */
 
     public void createViaje(Chofer chofer, Pasajero pasajero) {
+        id = new ViajeId(chofer.getId(), pasajero.getId());
         this.chofer = chofer;
-        chofer.addViaje(this);
         this.pasajero = pasajero;
-        pasajero.addViaje(this);
-    }
-
-    public void deleteViaje(Chofer chofer, Pasajero pasajero) {
-        this.chofer = null;
-        chofer.deleteViaje(this);
-        this.pasajero = null;
-        pasajero.deleteViaje(this);
     }
 
 }

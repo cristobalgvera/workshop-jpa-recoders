@@ -27,6 +27,7 @@ public class OficinaUber {
     private String ubicacion;
 
     @OneToMany(mappedBy = "oficinaUber", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
     private Set<Chofer> choferes = new HashSet<>();
 
     public void addChofer(Chofer chofer) {

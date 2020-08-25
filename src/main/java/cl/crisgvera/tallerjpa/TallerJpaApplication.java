@@ -9,5 +9,4 @@ public class TallerJpaApplication {
     public static void main(String[] args) {
         SpringApplication.run(TallerJpaApplication.class, args);
     }
-
 }

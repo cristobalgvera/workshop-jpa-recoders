@@ -10,6 +10,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Pasajero {
 
     @Id
@@ -27,15 +28,9 @@ public class Pasajero {
     private String celular;
 
     @OneToMany(mappedBy = "pasajero",
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+            fetch = FetchType.EAGER)
+    @EqualsAndHashCode.Exclude
     private Set<Viaje> viajes = new HashSet<>();
-
-    public void addViaje(Viaje viaje) {
-        viajes.add(viaje);
-    }
-
-    public void deleteViaje(Viaje viaje) {
-        viajes.remove(viaje);
-    }
 
 }

@@ -1,5 +1,7 @@
 package cl.crisgvera.tallerjpa.modelo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,6 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Chofer {
 
     @Id
@@ -23,22 +26,20 @@ public class Chofer {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "AUTO_ID")
+    @EqualsAndHashCode.Exclude
+    @JsonManagedReference
     private Auto auto;
 
     @ManyToOne
     @JoinColumn(name = "OFICINA_UBER_ID", nullable = false)
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private OficinaUber oficinaUber;
 
     @OneToMany(mappedBy = "chofer",
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+            fetch = FetchType.EAGER)
+    @EqualsAndHashCode.Exclude
     private Set<Viaje> viajes = new HashSet<>();
-
-    public void addViaje(Viaje viaje) {
-        viajes.add(viaje);
-    }
-
-    public void deleteViaje(Viaje viaje) {
-        viajes.remove(viaje);
-    }
 
 }

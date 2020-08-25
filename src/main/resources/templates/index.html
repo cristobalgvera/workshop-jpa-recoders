@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Uber</title>
+</head>
+<body>
+<h1>Solicita tu Uber</h1>
+<form th:action="@{/solicitar-uber}" th:method="POST" th:object="${viaje}">
+    <label for="ubicacion-inicial">Salida:</label>
+    <input id="ubicacion-inicial" name="ubicacion-inicial" th:field="*{ubicacionSalida}" required>
+    <br/>
+    <label for="ubicacion-final">Destino:</label>
+    <input id="ubicacion-final" name="ubicacion-final" th:field="*{ubicacionLlegada}" required>
+    <br/>
+    <button type="submit">Solicitar Uber</button>
+</form>
+<hr/>
+<th:block th:if="${viajeSolicitado != null}">
+    <h2>Viaje en curso</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Pasajero ID</th>
+            <th>Nombre pasajero</th>
+            <th>Email pasajero</th>
+            <th>Teléfono pasajero</th>
+            <th>Chofer ID</th>
+            <th>Nombre chofer</th>
+            <th>Viaje ID</th>
+            <th>Hora de inicio</th>
+            <th>Hora de término</th>
+            <th>Lugar de inicio</th>
+            <th>Lugar de término</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${viajeSolicitado.pasajero.id}"></td>
+            <td th:text="${viajeSolicitado.pasajero.nombre}"></td>
+            <td th:text="${viajeSolicitado.pasajero.email}"></td>
+            <td th:text="${viajeSolicitado.pasajero.celular}"></td>
+            <td th:text="${viajeSolicitado.chofer.id}"></td>
+            <td th:text="${viajeSolicitado.chofer.nombre}"></td>
+            <td th:text="${viajeSolicitado.id}"></td>
+            <td th:text="${viajeSolicitado.horaSalida.toLocalTime()}"></td>
+            <td th:text="${viajeSolicitado.horaLlegada == null ? 'Aún en curso' : viajeSolicitado.horaLlegada.toLocalTime()}"></td>
+            <td th:text="${viajeSolicitado.ubicacionSalida}"></td>
+            <td th:text="${viajeSolicitado.ubicacionLlegada}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <form th:action="@{/terminar-viaje}" th:method="POST" th:object="${viajeSolicitado}">
+        <input type="hidden" name="chofer-id" th:value="*{id.choferId}">
+        <input type="hidden" name="pasajero-id" th:value="*{id.pasajeroId}">
+        <button type="submit">Terminar viaje</button>
+    </form>
+</th:block>
+</body>
+</html>

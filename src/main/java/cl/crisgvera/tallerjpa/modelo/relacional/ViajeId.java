@@ -8,7 +8,9 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
+@ToString
 public class ViajeId implements Serializable {
 
     @Column(name = "CHOFER_ID") // TIP: Ayuda a no equivocarse en el mapeo posterior

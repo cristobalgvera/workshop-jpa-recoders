@@ -1,5 +1,6 @@
 package cl.crisgvera.tallerjpa.modelo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import javax.persistence.*;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Auto {
 
     @Id
@@ -19,6 +21,8 @@ public class Auto {
     private int anio;
 
     @OneToOne(mappedBy = "auto")
+    @EqualsAndHashCode.Exclude
+    @JsonBackReference
     private Chofer chofer;
 
 }
