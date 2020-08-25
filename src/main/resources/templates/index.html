@@ -57,5 +57,12 @@
         <button type="submit">Terminar viaje</button>
     </form>
 </th:block>
+
+<a th:href="@{/oficinas-uber}">REST call a Oficinas de Uber</a>
+
+<th:block th:if="${oficinasUber != null}">
+    <p th:text="${oficinasUber}"></p>
+</th:block>
+
 </body>
 </html>
